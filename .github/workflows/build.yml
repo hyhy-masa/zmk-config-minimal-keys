@@ -13,8 +13,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Cache west modules
         uses: actions/cache@v3
-        env:
-          cache-name: cache-zephyr-modules
         with:
           path: |
             modules/
@@ -22,28 +20,26 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('config/west.yml') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-modules-
       - name: West Init
         run: west init -l config
       - name: West Update
         run: west update
       - name: West Zephyr export
         run: west zephyr-export
-      - name: Build (Left)
-        run: west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Left Artifact
+      - name: West Build (Minimal Keys Left)
+        run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: Minimal Keys Left Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: firmware
+          name: firmware-left
           path: build/zephyr/zmk.uf2
-      - name: Build (Right)
-        run: west build --pristine -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Right Artifact
+      - name: West Build (Minimal Keys Right)
+        run: west build --pristine -s zmk/app -b nice_nano_v2 -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: Minimal Keys Right Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: firmware
+          name: firmware-right
           path: build/zephyr/zmk.uf2 
