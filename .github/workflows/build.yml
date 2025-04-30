@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache west modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: West Init
+        run: west init -l config
+      - name: West Update
+        run: west update
+      - name: West Zephyr export
+        run: west zephyr-export
+      - name: West Build (Minimal Keys Left)
+        run: west build -s zmk/app -b nrf52840_m2 -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: Minimal Keys Left Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-left
+          path: build/zephyr/zmk.uf2
+      - name: West Build (Minimal Keys Right)
+        run: west build --pristine -s zmk/app -b nrf52840_m2 -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+      - name: Minimal Keys Right Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-right
+          path: build/zephyr/zmk.uf2 
