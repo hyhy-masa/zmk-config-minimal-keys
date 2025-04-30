@@ -1,12 +1,6 @@
 name: Build
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -39,17 +33,17 @@ jobs:
         run: west update
       - name: West Zephyr export
         run: west zephyr-export
-      - name: West Build (Minimal Keys Left)
+      - name: Build (Left)
         run: west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Minimal Keys Left Artifact
+      - name: Left Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: firmware-left
+          name: firmware
           path: build/zephyr/zmk.uf2
-      - name: West Build (Minimal Keys Right)
+      - name: Build (Right)
         run: west build --pristine -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Minimal Keys Right Artifact
+      - name: Right Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: firmware-right
+          name: firmware
           path: build/zephyr/zmk.uf2 

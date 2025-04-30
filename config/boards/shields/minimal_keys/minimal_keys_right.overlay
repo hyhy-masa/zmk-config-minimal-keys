@@ -18,15 +18,6 @@
                     <&gpio1 13 GPIO_ACTIVE_HIGH>,
                     <&gpio1 0  GPIO_ACTIVE_HIGH>;
     };
-
-    trackball {
-        compatible = "pixart,pmw3610";
-        spi-max-frequency = <2000000>;
-        reg = <0>;
-        cs-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-        motion-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
-        irq-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
-    };
 };
 
 &pinctrl {
@@ -53,5 +44,15 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
+
+    cs-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>;
+
+    trackball: pmw3610@0 {
+        status = "okay";
+        compatible = "pixart,pmw3610";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
+        motion-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+    };
 }; 
