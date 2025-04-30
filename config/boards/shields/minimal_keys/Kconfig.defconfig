@@ -3,6 +3,9 @@ if SHIELD_MINIMAL_KEYS_LEFT
 config ZMK_KEYBOARD_NAME
     default "Minimal Keys Left"
 
+config ZMK_SPLIT_ROLE_CENTRAL
+    default n
+
 endif
 
 if SHIELD_MINIMAL_KEYS_RIGHT
@@ -10,13 +13,13 @@ if SHIELD_MINIMAL_KEYS_RIGHT
 config ZMK_KEYBOARD_NAME
     default "Minimal Keys Right"
 
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
 config SPI
     default y
 
 config PMW3610
-    default y
-
-config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif
@@ -27,6 +30,12 @@ config ZMK_SPLIT
     default y
 
 config ZMK_MOUSE
+    default y
+
+config ZMK_BLE
+    default y
+
+config ZMK_USB
     default y
 
 endif 

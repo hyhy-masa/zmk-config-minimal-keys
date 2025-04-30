@@ -1,5 +1,9 @@
 config SHIELD_MINIMAL_KEYS_LEFT
     def_bool $(shields_list_contains,minimal_keys_left)
+    select SPI
+    select PMW3610
 
 config SHIELD_MINIMAL_KEYS_RIGHT
-    def_bool $(shields_list_contains,minimal_keys_right) 
+    def_bool $(shields_list_contains,minimal_keys_right)
+    select SPI
+    select PMW3610 
