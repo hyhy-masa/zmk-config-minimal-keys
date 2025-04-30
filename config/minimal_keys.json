@@ -1,0 +1,18 @@
+{
+    "id": "minimal_keys",
+    "name": "Minimal Keys",
+    "type": "split",
+    "matrix": {
+        "rows": 4,
+        "cols": 10
+    },
+    "layouts": {
+        "default_layout": {
+            "name": "default"
+        }
+    },
+    "features": {
+        "keys": true,
+        "encoders": true
+    }
+} 
