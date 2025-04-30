@@ -11,22 +11,13 @@ endif
 if SHIELD_MINIMAL_KEYS_RIGHT
 
 config ZMK_KEYBOARD_NAME
-    default "Minimal Keys"
-
-config SPI
-    default y
-
-config PMW3610
-    default y
+    default "Minimal Keys Right"
 
 endif
 
 if SHIELD_MINIMAL_KEYS_LEFT || SHIELD_MINIMAL_KEYS_RIGHT
 
 config ZMK_SPLIT
-    default y
-
-config ZMK_SPLIT_BLE
     default y
 
 endif 
