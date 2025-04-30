@@ -28,7 +28,7 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -40,14 +40,14 @@ jobs:
       - name: West Zephyr export
         run: west zephyr-export
       - name: West Build (Minimal Keys Left)
-        run: west build -s zmk/app -b nrf52840_m2 -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+        run: west build -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: Minimal Keys Left Artifact
         uses: actions/upload-artifact@v3
         with:
           name: firmware-left
           path: build/zephyr/zmk.uf2
       - name: West Build (Minimal Keys Right)
-        run: west build --pristine -s zmk/app -b nrf52840_m2 -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+        run: west build --pristine -s zmk/app -b seeeduino_xiao_ble -- -DSHIELD=minimal_keys_right -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
       - name: Minimal Keys Right Artifact
         uses: actions/upload-artifact@v3
         with:
