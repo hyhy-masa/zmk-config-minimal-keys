@@ -1,5 +1,0 @@
-config SHIELD_MINIMAL_KEYS_LEFT
-    def_bool $(shields_list_contains,minimal_keys_left)
-
-config SHIELD_MINIMAL_KEYS_RIGHT
-    def_bool $(shields_list_contains,minimal_keys_right) 

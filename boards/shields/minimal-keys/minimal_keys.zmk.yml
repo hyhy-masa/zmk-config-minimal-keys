@@ -1,8 +1,0 @@
-file_format: "1"
-id: minimal-keys
-name: minimal-keys
-type: shield
-url: https://github.com/hyhy-masa/zmk-config-minimal-keys
-requires: [seeeduino_xiao_ble]
-features:
-  - keys
