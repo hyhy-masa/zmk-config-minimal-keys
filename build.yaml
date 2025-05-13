@@ -25,10 +25,11 @@
  // - board: seeeduino_xiao_ble
 //  shield: settings_reset
 
+// ファイル: build.yaml (修正版)
 include:
   - board: seeeduino_xiao_ble
-    shield: minimal-keys_R
+    shield: minimal_keys_right
   - board: seeeduino_xiao_ble
-    shield: minimal-keys_L
+    shield: minimal_keys_left
   - board: seeeduino_xiao_ble
     shield: settings_reset

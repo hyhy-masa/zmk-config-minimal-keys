@@ -1,4 +1,4 @@
-#include "minimal-keys.dtsi"
+#include "minimal_keys.dtsi"
 //追加文
 &pinctrl {
     spi0_default: spi0_default {

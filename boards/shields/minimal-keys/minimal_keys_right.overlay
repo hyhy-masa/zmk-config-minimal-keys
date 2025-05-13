@@ -1,4 +1,4 @@
-#include "minimal-keys.dtsi"
+#include "minimal_keys.dtsi"
 #include <input/processors.dtsi>
 
 &default_transform {
