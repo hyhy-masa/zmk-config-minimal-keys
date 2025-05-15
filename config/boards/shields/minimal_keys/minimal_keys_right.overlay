@@ -11,16 +11,14 @@
         diode-direction = "col2row";
         
         // XIAOの実際のピン配置に基づくGPIO設定
-        row-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   // D0
-                    <&gpio0 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   // D1
-                    <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // D2
-                    <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  // D3
+        row-gpios = <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   // D0
+                    <&xiao_d 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   // D1
+                    <&xiao_d 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  // D2
+                    <&xiao_d 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  // D3
 
-        col-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>,   // D4
-                    <&gpio0 5 GPIO_ACTIVE_HIGH>,   // D5
-                    <&gpio1 11 GPIO_ACTIVE_HIGH>,  // D6
-                    <&gpio1 12 GPIO_ACTIVE_HIGH>,  // D7
-                    <&gpio0 10 GPIO_ACTIVE_HIGH>;  // D8
+        col-gpios = <&xiao_d 14 GPIO_ACTIVE_HIGH>,   // D4
+                    <&xiao_d 15 GPIO_ACTIVE_HIGH>,   // D5
+                    <&gpio0 10 GPIO_ACTIVE_HIGH>,  // D7
     };
 
     // トラックボール設定
@@ -33,20 +31,22 @@
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,    // D10 (SCK)
-                    <NRF_PSEL(SPIM_MOSI, 0, 10)>,  // D8 (MOSI)
-                    <NRF_PSEL(SPIM_MISO, 0, 9)>;   // D9 (MISO)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,    // D10 (SCK)
+                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,  // D8 (MOSI)
+                    <NRF_PSEL(SPIM_MISO, 0, 4)>;   // D9 (MISO)
         };
     };
     spi0_sleep: spi0_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 10)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 9)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
             low-power-enable;
         };
     };
 };
+
+&xiao_serial { status = "enable"; };
 
 &spi0 {
     status = "okay";
@@ -62,7 +62,9 @@
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;    // D5 (実際の配線に合わせて調整)
-        motion-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>; // D4 (実際の配線に合わせて調整)
-    };
+        irq-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;    // D5 (実際の配線に合わせて調整)
+        
+         automouse-layer = <4>;
+        scroll-layers = <3>;
+            };
 };
