@@ -14,8 +14,7 @@
         row-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,    // P0.02 (D0/A0)
                   <&gpio0 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,     // P0.03 (D1/A1)
                   <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,    // P0.28 (D2/A2)
-                  <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,    // P0.04 (D4/A4)
-                  ;
+                  <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;    // P0.04 (D4/A4)
 
         col-gpios = <&gpio0 14 GPIO_ACTIVE_HIGH>,    // P0.14 (D6/TX)
                   <&gpio0 15 GPIO_ACTIVE_HIGH>,    // P0.15 (D9/MISO)
