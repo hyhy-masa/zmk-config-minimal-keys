@@ -1,57 +1,23 @@
-
-if SHIELD_MINIMAL_KEYS_RIGHT
+if SHIELD_MINIMAL_KEYS_LEFT
 
 config ZMK_KEYBOARD_NAME
-    default "minimal-keys_right
-
-config ZMK_SPLIT
-    default y
+    default "minimal-keys"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif
 
-if SHIELD_MINIMAL_KEYS_LEFT
+if SHIELD_MINIMAL_KEYS_RIGHT
 
 config ZMK_KEYBOARD_NAME
-    default "minimal-keys_left"
-
-config ZMK_SPLIT
-    default y
+    default "minimal-keys"
 
 endif
 
-if SHIELD_MINIMAL_KEYS_RIGHT|| SHIELD_MINIMAL_KEYS_LEFT
+if SHIELD_MINIMAL_KEYS_LEFT || SHIELD_MINIMAL_KEYS_RIGHT
 
 config ZMK_SPLIT
     default y
-    
-config NFCT_PINS_AS_GPIOS
-    default y
-
-config ZMK_SPLIT
-    default y
-
-config INPUT
-    default y
-
-config ZMK_POINTING
-    default y
-
-config SPI
-    default y
-
-config PMW3610
-    default y
-
-config PMW3610_SWAP_XY
-    default y
-
-config RGBLED_WIDGET_BATTERY_LEVEL_HIGH
-    default 30
-
-config RGBLED_WIDGET_BATTERY_LEVEL_CRITICAL
-    default 10
 
 endif

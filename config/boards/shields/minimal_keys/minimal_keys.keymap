@@ -1,51 +1,41 @@
-#include <input/processors.dtsi>
-#include <dt-bindings/zmk/input_transform.h>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/mouse.h>
+#include <dt-bindings/zmk/pointing.h>
 
-// ZMK_POINTING_DEFAULT_SCRL_VALは既に定義されているので再定義しない
-// #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
-#define MOUSE 5
+// レイヤー定義
+#define DEFAULT 0
+#define LOWER 1
+#define RAISE 2
+#define ADJUST 3
+#define MOUSE 4
 
+// タップ・ホールド設定（高速レスポンス用）
 &mt {
     flavor = "balanced";
-    quick-tap-ms = <0>;
-    tapping-term-ms = <5>; // Set to 5ms for tap-hold requirements
+    tapping-term-ms = <150>;    // 高速レスポンス用に短縮
+    quick-tap-ms = <100>;       // 高速レスポンス用に短縮
+    require-prior-idle-ms = <50>; // 高速レスポンス用に短縮
+};
+
+// タイムラグ短縮のための設定
+&kscan0 {
+    debounce-period = <5>;      // デバウンス時間短縮
+    scan-period-ms = <5>;       // スキャン間隔短縮
 };
 
 / {
-    combos { compatible = "zmk,combos"; };
-
-    macros {
-        to_layer_0: to_layer_0 {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
-            label = "TO_LAYER_0";
-        };
-    };
-
     behaviors {
-        lt_to_layer_0: lt_to_layer_0 {
+        // ホームポジションモディファイア用
+        hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
-            label = "LAYER_TAP_TO_0";
-            bindings = <&mo>, <&to_layer_0>;
-
             #binding-cells = <2>;
-            tapping-term-ms = <5>; // Set to 5ms for tap-hold requirements
-            quick-tap-ms = <0>;
-        };
-
-        scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
-            compatible = "zmk,behavior-sensor-rotate";
-            #sensor-binding-cells = <0>;
-            bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
-
-            tap-ms = <5>; // Set to 5ms for responsive scrolling
+            flavor = "balanced";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <100>;
+            require-prior-idle-ms = <50>;
+            bindings = <&kp>, <&kp>;
         };
     };
 
@@ -53,31 +43,54 @@
         compatible = "zmk,keymap";
 
         default_layer {
+            // 修正されたマトリックスに合わせたレイアウト
             bindings = <
-                &kp Q &kp W &kp E &kp R &kp T        &kp Y &kp U &kp I &kp O &kp P
-                &kp A &kp S &kp D &kp F &kp G        &kp H &kp J &kp K &kp L &kp SEMI
-                &kp Z &kp X &kp C &kp V &kp B        &kp N &kp M &kp COMMA &kp DOT &kp FSLH
-                              &kp LCTRL &kp SPACE    &kp ENTER &kp RALT
+                &kp Q       &kp W       &kp E       &kp R       &kp T                           &kp Y       &kp U       &kp I       &kp O       &kp P
+                &hm LGUI A  &hm LALT S  &hm LCTRL D &hm LSHFT F &kp G       &kp GRAVE   &kp LBKT    &kp H       &hm RSHFT J &hm RCTRL K &hm RALT L  &hm RGUI SEMI
+                &kp Z       &kp X       &kp C       &kp V       &kp B       &kp MINUS   &kp EQUAL   &kp N       &kp M       &kp COMMA   &kp DOT     &kp FSLH
+                &kp LCTRL   &kp LALT    &kp LGUI    &mo LOWER   &kp SPACE   &kp BSPC    &kp RET     &mo RAISE                           &kp UP      &kp ESC
             >;
-
+            
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         lower_layer {
+            // 数字、記号レイヤー
             bindings = <
-                &kp GRAVE &kp N1    &kp N2    &kp N3    &kp N4     &kp N5    &kp N6    &kp N7    &kp N8    &kp N9
-                &trans    &kp F1    &kp F2    &kp F3    &kp F4     &kp F5    &kp F6    &kp MINUS &kp EQUAL &kp LBKT
-                &trans    &kp F7    &kp F8    &kp F9    &kp F10    &kp F11   &kp F12   &trans    &trans    &trans
-                                    &trans    &trans    &trans     &trans
+                &kp N1      &kp N2      &kp N3      &kp N4      &kp N5                          &kp N6      &kp N7      &kp N8      &kp N9      &kp N0
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &trans      &trans      &trans      &trans      &trans
+                &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6      &kp F7  &kp F8      &kp F9      &kp F10     &kp F11     &kp F12
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &mo ADJUST                           &trans      &trans
             >;
         };
 
         raise_layer {
+            // マウス操作、ナビゲーションレイヤー
             bindings = <
-                &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans    &trans    &trans    &trans
-                &trans     &trans       &trans       &trans       &trans       &trans       &trans    &trans    &trans    &trans
-                &trans     &trans       &trans       &trans       &trans       &trans       &trans    &trans    &trans    &trans
-                                        &trans       &trans       &trans       &trans
+                &kp GRAVE   &trans      &trans      &trans      &trans                          &trans      &trans      &trans      &mkp LCLK   &mkp RCLK
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &trans
+                &sys_reset  &trans      &trans      &trans      &trans      &trans      &trans  &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT &trans
+                &bootloader &trans      &trans      &mo ADJUST  &trans      &trans      &trans  &trans                                      &trans      &trans
+            >;
+        };
+
+        adjust_layer {
+            // Bluetooth、システム設定レイヤー
+            bindings = <
+                &bt BT_CLR  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3                &bt BT_SEL 4 &trans     &trans      &trans      &trans
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &trans      &trans      &trans      &trans      &trans
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &trans      &trans      &trans      &trans      &trans
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &trans                              &trans      &trans
+            >;
+        };
+
+        mouse_layer {
+            // マウス専用レイヤー
+            bindings = <
+                &trans      &trans      &trans      &trans      &trans                          &trans      &trans      &trans      &mkp LCLK   &mkp RCLK
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &mkp MB3
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT &trans
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans  &trans                                      &trans      &trans
             >;
         };
     };
