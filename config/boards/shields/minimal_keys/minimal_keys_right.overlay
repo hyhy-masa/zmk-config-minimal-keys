@@ -18,8 +18,7 @@
 
         col-gpios = <&gpio0 14 GPIO_ACTIVE_HIGH>,    // P0.14 (D6/TX)
                   <&gpio0 15 GPIO_ACTIVE_HIGH>,    // P0.15 (D9/MISO)
-                  <&gpio0 10 GPIO_ACTIVE_HIGH>, // P0.10 (NFC2)
-                  ;    
+                  <&gpio0 10 GPIO_ACTIVE_HIGH>; // P0.10 (NFC2)
     };
 
     // トラックボール設定
