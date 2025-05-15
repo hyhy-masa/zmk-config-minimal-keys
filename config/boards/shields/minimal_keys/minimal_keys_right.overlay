@@ -45,7 +45,7 @@
         };
     };
 };
-&xiao_serial { status = "enable"; };
+&xiao_serial { status = "okay"; };
 
 &spi0 {
     status = "okay";
