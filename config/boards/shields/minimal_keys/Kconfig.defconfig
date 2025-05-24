@@ -1,9 +1,9 @@
 if SHIELD_MINIMAL_KEYS_LEFT
 
 config ZMK_KEYBOARD_NAME
-    default "minimal-keys"
+    default "minimal-keys_L"
 
-config ZMK_SPLIT_ROLE_CENTRAL
+    config ZMK_SPLIT
     default y
 
 endif
@@ -11,13 +11,12 @@ endif
 if SHIELD_MINIMAL_KEYS_RIGHT
 
 config ZMK_KEYBOARD_NAME
-    default "minimal-keys"
+    default "minimal-keys_R"
 
-endif
+    config ZMK_SPLIT
+    default y
 
-if SHIELD_MINIMAL_KEYS_LEFT || SHIELD_MINIMAL_KEYS_RIGHT
-
-config ZMK_SPLIT
+    config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif
