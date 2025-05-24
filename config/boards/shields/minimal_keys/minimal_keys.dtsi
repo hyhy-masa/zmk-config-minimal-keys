@@ -23,11 +23,25 @@
         >;
     };
 
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        label = "KSCAN";
-        diode-direction = "col2row";
+     kscan_charlie_common: kscan_charlie_template {
+        compatible       = "zmk,kscan-gpio-charlieplex";
+        label            = "KSCAN";
+        debounce-press-ms   = <5>;
+        debounce-release-ms = <5>;
+        wakeup-source;              /* deep-sleep 解除 */
+
+        /* interrupt-gpios は左右で同じ P0.07 を使用 */
+        interrupt-gpios  = < &gpio0 7 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH) >;
     };
+
+    /* 充電ステータス LED（オンボードの P0.17 / XIAO 青 LED）を制御 */
+    charging_led: led_charging {
+        compatible = "gpio-leds";
+        charging_led: charging_led_0 {
+            gpios = < &gpio0 17 GPIO_ACTIVE_LOW >; /* Low で点灯 */
+            label = "CHG_LED";
+        };
+    }; 
 
     vbatt {
         compatible = "zmk,battery-voltage-divider";

@@ -1,28 +1,23 @@
 #include "minimal_keys.dtsi"
 
 / {
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        label = "KSCAN";
-        diode-direction = "col2row";
-        
-        // XIAOの実際のピン配置に基づくGPIO設定
-        row-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,    // P0.02 (D0/A0)
-                  <&gpio0 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,     // P0.03 (D1/A1)
-                  <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,    // P0.28 (D2/A2)
-                  <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;    // P0.29 (D3/A3)
-
-        col-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>,     // P0.04 (D4/A4)
-                  <&gpio0 5 GPIO_ACTIVE_HIGH>,     // P0.05 (D5/A5)
-                  <&gpio0 14 GPIO_ACTIVE_HIGH>;    // P0.14 (D6/TX)
+    kscan_charlie_left: kscan0 {
+        gpios = < &gpio0 3 GPIO_ACTIVE_HIGH >,         // 使用するGPIOピン列（例）
+                < &gpio0 28 GPIO_ACTIVE_HIGH >,
+                < &gpio0 29 GPIO_ACTIVE_HIGH >,
+                < &gpio0 13 GPIO_ACTIVE_HIGH >,
+                < &gpio0 14 GPIO_ACTIVE_HIGH >;
+                < &gpio0 15 GPIO_ACTIVE_HIGH >;
+                < &gpio0 9 GPIO_ACTIVE_HIGH >;
+                                    // スリープ解除ソースに指定
     };
 
     // ロータリーエンコーダー設定
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
-        a-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;   // P0.05 (D5/A5)
-        b-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;   // P0.02 (D0/A0)
+        a-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;   // P0.05 (D5/A5)
+        b-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;   // P0.02 (D0/A0)
          steps = <12>;
         resolution = <4>;
     };
