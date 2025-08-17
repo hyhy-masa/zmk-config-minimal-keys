@@ -59,7 +59,6 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;  // P0.03 (D1/A1)
         
-        automouse-layer = <4>;
         scroll-layers = <3>;
     };
 };
